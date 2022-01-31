@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core import mail
 from django.http import HttpRequest
 from django.test import TestCase
 from django.urls import resolve, reverse
@@ -67,3 +69,14 @@ class HomePageTest(TestCase):
         )
 
         self.assertRedirects(response, reverse('pages:thank-you'))
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'New message from site')
+        self.assertEqual(
+            settings.DEFAULT_FROM_EMAIL,
+            mail.outbox[0].from_email
+        )
+        self.assertIn(settings.NOTIFICATIONS_EMAIL, mail.outbox[0].to)
+
+        for key, value in data.items():
+            with self.subTest(name=key):
+                self.assertIn(value, mail.outbox[0].body)
