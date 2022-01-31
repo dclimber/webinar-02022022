@@ -9,3 +9,4 @@ class HomePageTest(TestCase):
         found_view = resolve('/')
 
         self.assertEqual(found_view.func, home_page)
+        self.assertEqual(found_view.url_name, 'home')
