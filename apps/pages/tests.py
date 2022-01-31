@@ -10,3 +10,4 @@ class HomePageTest(TestCase):
 
         self.assertEqual(found_view.func, home_page)
         self.assertEqual(found_view.url_name, 'home')
+        self.assertEqual(found_view.app_name, 'pages')
