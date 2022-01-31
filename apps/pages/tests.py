@@ -38,3 +38,16 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
 
         self.assertTemplateUsed(response, 'home.html')
+
+    def test_form_in_page(self):
+        fields = (
+            'full_name', 'email', 'phone', 'message'
+        )
+
+        response = self.client.get(reverse('pages:home'))
+
+        self.assertIn(f'<form', response.content.decode())
+
+        for name in fields:
+            with self.subTest(field_name=name):
+                self.assertIn(f'name="{name}"', response.content.decode())
