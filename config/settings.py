@@ -115,3 +115,7 @@ MEDIA_URL = '/media/'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Project
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+NOTIFICATIONS_EMAIL = config('NOTIFICATIONS_EMAIL')
