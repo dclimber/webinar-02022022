@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from django.test import TestCase
 from django.urls import resolve
 
@@ -11,3 +12,12 @@ class HomePageTest(TestCase):
         self.assertEqual(found_view.func, home_page)
         self.assertEqual(found_view.url_name, 'home')
         self.assertEqual(found_view.app_name, 'pages')
+
+    def test_home_page_returns_correct_html(self):
+        request = HttpRequest()
+        response = home_page(request)
+        html = response.content.decode('utf8')
+
+        self.assertTrue(html.startswith('<html>'))
+        self.assertIn('<title>Портфолио Декса</title>', html)
+        self.assertTrue(html.endswith('</html>'))
