@@ -2,6 +2,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 
+from .forms import ContactForm
+
 
 def home_page(request):
     if request.method == 'POST':
@@ -22,7 +24,7 @@ def home_page(request):
             fail_silently=False,
         )
         return redirect('pages:thank-you')
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'form': ContactForm()})
 
 
 def thank_you(request):
