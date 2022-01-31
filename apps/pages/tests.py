@@ -20,4 +20,9 @@ class HomePageTest(TestCase):
 
         self.assertTrue(html.startswith('<html>'))
         self.assertIn('<title>Портфолио Декса</title>', html)
-        self.assertTrue(html.endswith('</html>'))
+        self.assertTrue(html.strip().endswith('</html>'))
+
+    def test_home_page_uses_correct_template(self):
+        response = self.client.get('/')
+
+        self.assertTemplateUsed(response, 'home.html')
