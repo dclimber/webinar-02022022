@@ -13,14 +13,14 @@ class HomePageTest(TestCase):
         self.assertEqual(found_view.url_name, 'home')
         self.assertEqual(found_view.app_name, 'pages')
 
-    def test_home_page_returns_correct_html(self):
+    def test_returns_correct_html(self):
         request = HttpRequest()
         response = home_page(request)
         html = response.content.decode('utf8')
 
         self.assertIn('<title>Портфолио Декса</title>', html)
 
-    def test_home_page_uses_correct_template(self):
+    def test_uses_correct_template(self):
         response = self.client.get('/')
 
         self.assertTemplateUsed(response, 'home.html')
