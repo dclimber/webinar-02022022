@@ -51,3 +51,19 @@ class HomePageTest(TestCase):
         for name in fields:
             with self.subTest(field_name=name):
                 self.assertIn(f'name="{name}"', response.content.decode())
+
+    def test_form_submission_works(self):
+        data = dict(
+            full_name='test',
+            email='test@test.com',
+            phone='+775613546435',
+            message='test',
+        )
+
+        response = self.client.post(
+            reverse('pages:home'),
+            data=data,
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('pages:thank-you'))
