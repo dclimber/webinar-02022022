@@ -18,9 +18,7 @@ class HomePageTest(TestCase):
         response = home_page(request)
         html = response.content.decode('utf8')
 
-        self.assertTrue(html.startswith('<html>'))
         self.assertIn('<title>Портфолио Декса</title>', html)
-        self.assertTrue(html.strip().endswith('</html>'))
 
     def test_home_page_uses_correct_template(self):
         response = self.client.get('/')
