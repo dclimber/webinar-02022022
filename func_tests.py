@@ -1,3 +1,4 @@
+import time
 import unittest
 
 from selenium import webdriver
@@ -42,11 +43,15 @@ class NewVisitorTest(unittest.TestCase):
         input_message.send_keys('Декс, я посмотрела твой сайт, ты молодец!')
 
         # Яна нажала кнопку Send
-        input_message.send_keys(Keys.ENTER)
+        input_phone.submit()
 
-        self.fail('Finish the test!')  # падает — напоминалка нам дописать тест
         # И её перебросило на страницу «Спасибо»
+        time.sleep(10)
 
+        self.assertEqual(
+            self.browser.current_url,
+            'http://localhost:8000/thank-you/'
+        )
         # Довольная Яна ушла пить Шампанское.
 
 
