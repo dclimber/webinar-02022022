@@ -119,3 +119,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Project
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 NOTIFICATIONS_EMAIL = config('NOTIFICATIONS_EMAIL')
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'sent-emails'
