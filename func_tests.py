@@ -1,6 +1,7 @@
 import unittest
 
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 PATH_TO_CHROME: str = './chromedriver'
 
@@ -21,22 +22,29 @@ class NewVisitorTest(unittest.TestCase):
         # портфолио Декса
         self.assertIn('Портфолио Декса', self.browser.title)
 
-        self.fail('Finish the test!')  # падает — напоминалка нам дописать тест
-
         # Яна увидела на сайте Декса контактную форму и решила написать ему
         # через неё, что она посмотрела его сайт.
 
-        # Яна заполнила поле Full name своими ФИО - Алматинская Яна Рфмшатовна
+        # Яна заполнила поле Full name своими ФИО
+        input_full_name = self.browser.find_element_by_id('id_full_name')
+        input_full_name.send_keys('Алматинская Яна Рфмшатовна')
 
-        # Яна заполнила свой емейл: yana@yandex.ru
+        # Яна заполнила свой емейл
+        input_email = self.browser.find_element_by_id('id_email')
+        input_email.send_keys('yana@yandex.ru')
 
-        # Яна заполнила номер телефона: +77779997777
+        # Яна заполнила номер телефона
+        input_phone = self.browser.find_element_by_id('id_phone')
+        input_phone.send_keys('+77779997777')
 
         # Яна написала сообщение Дексу:
-        # Декс, я посмотрела твой сайт, ты молодец!
+        input_message = self.browser.find_element_by_id('id_message')
+        input_message.send_keys('Декс, я посмотрела твой сайт, ты молодец!')
 
         # Яна нажала кнопку Send
+        input_message.send_keys(Keys.ENTER)
 
+        self.fail('Finish the test!')  # падает — напоминалка нам дописать тест
         # И её перебросило на страницу «Спасибо»
 
         # Довольная Яна ушла пить Шампанское.
