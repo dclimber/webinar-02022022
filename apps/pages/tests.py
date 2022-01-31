@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from django.test import TestCase
 from django.urls import resolve, reverse
 
+from .forms import ContactForm
 from .views import home_page, thank_you
 
 
@@ -80,3 +81,9 @@ class HomePageTest(TestCase):
         for key, value in data.items():
             with self.subTest(name=key):
                 self.assertIn(value, mail.outbox[0].body)
+
+    def test_contact_form_is_in_context(self):
+        response = self.client.get(reverse('pages:home'))
+
+        self.assertIn('form', response.context)
+        self.assertIsInstance(response.context['form'], ContactForm)
