@@ -2,7 +2,6 @@ import time
 import unittest
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
 PATH_TO_CHROME: str = './chromedriver'
 
