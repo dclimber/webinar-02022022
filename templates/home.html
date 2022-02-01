@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load pages_tags %}
 {% block content %}
         <!-- Masthead-->
         <header class="masthead bg-primary text-white text-center">
@@ -129,48 +130,35 @@
                     <div class="col-lg-8 col-xl-7">
                         <form id="contactForm" action="" method="POST">
                             {% csrf_token %}
-                            <!-- Name input-->
+
+                            {% for field in form %}
                             <div class="form-floating mb-3">
-                                <input name="full_name" class="form-control" id="id_full_name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
-                                <label for="name">Full name</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                  {% if not field.is_hidden and not nolabel %}
+                                      <label for="{{ field.id_for_label }}">{{ field.label|title }}{% if field.field.required %}<span class="required">*</span>{% endif %}</label>
+                                  {% endif %}
+                                    {% if field.errors %}
+                                      {{ field|addclass:'form-control is-invalid' }}
+                                    {% elif form.is_bound %}
+                                      {{ field|addclass:"form-control is-valid" }}
+                                    {% else %}
+                                      {{ field|addclass:"form-control" }}
+                                    {% endif %}
+                                    {% if field.errors %}
+                                    <div id="{{ field.id_for_label }}Feedback" class="invalid-feedback">
+                                      <p class="text-dander">
+                                        {% for error in field.errors %}
+                                        <b>{{ error|escape }}</b><br>
+                                        {% endfor %}
+                                      </p>
+                                    </div>
+                                    {% endif %}
+                                  {% if field.help_text %}
+                                    <small id="{{ field.id_for_label }}Help" class="form-text text-muted">{{ field.help_text|safe }}</small>
+                                  {% endif %}
                             </div>
-                            <!-- Email address input-->
-                            <div class="form-floating mb-3">
-                                <input name="email" class="form-control" id="id_email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
-                                <label for="email">Email address</label>
-                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-                            </div>
-                            <!-- Phone number input-->
-                            <div class="form-floating mb-3">
-                                <input name="phone" class="form-control" id="id_phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
-                                <label for="phone">Phone number</label>
-                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
-                            </div>
-                            <!-- Message input-->
-                            <div class="form-floating mb-3">
-                                <textarea name="message" class="form-control" id="id_message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
-                                <label for="message">Message</label>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
-                            </div>
-                            <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Form submission successful!</div>
-                                    To activate this form, sign up at
-                                    <br />
-                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                </div>
-                            </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+
+                            {% endfor %}
+
                             <!-- Submit Button-->
                             <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Send</button>
                         </form>
