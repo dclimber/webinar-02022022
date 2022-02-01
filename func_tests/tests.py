@@ -1,12 +1,12 @@
 import time
-import unittest
 
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 
 PATH_TO_CHROME: str = './chromedriver'
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome(PATH_TO_CHROME)
 
@@ -16,7 +16,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_can_use_a_contact_form_and_is_redirected_later(self):
         # Яна узнала, что его друг Декс создал себе сайт портфолио.
         # Она решила его посмотреть и открыла главную страницу.
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # Она увидела, что в заголовке сайта говорится, что это
         # портфолио Декса
@@ -49,10 +49,6 @@ class NewVisitorTest(unittest.TestCase):
 
         self.assertEqual(
             self.browser.current_url,
-            'http://localhost:8000/thank-you/'
+            f'{self.live_server_url}/thank-you/'
         )
         # Довольная Яна ушла пить Шампанское.
-
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
